@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dandy Kurniawan — Business Development &amp; Project Design</title>
+  <meta name="description" content="Final year Agribusiness student at Universitas Padjadjaran. Chairperson BEM KMFP Unpad. Business Development, KOL Strategy, Project Design." />
+
+  <!-- Playfair Display + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <!-- Three.js local r160 -->
+  <script src="three.min.js" defer></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Fixed full-screen 3D botanical canvas -->
+  <canvas id="journey-canvas" aria-hidden="true"></canvas>
+
+  <!-- SVG botanical overlays — decorative leaf elements -->
+  <div class="botanical-layer" aria-hidden="true">
+    <svg class="bot-leaf bot-leaf--tl" viewBox="0 0 200 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 330 C100 330 10 240 10 140 C10 60 50 10 100 10 C150 10 190 60 190 140 C190 240 100 330 100 330Z" fill="#2d6a4f" opacity="0.12"/>
+      <line x1="100" y1="30" x2="100" y2="320" stroke="#52b788" stroke-width="1.5" opacity="0.18"/>
+      <line x1="100" y1="100" x2="52" y2="150" stroke="#52b788" stroke-width="1" opacity="0.14"/>
+      <line x1="100" y1="140" x2="148" y2="188" stroke="#52b788" stroke-width="1" opacity="0.14"/>
+      <line x1="100" y1="180" x2="55" y2="228" stroke="#52b788" stroke-width="1" opacity="0.14"/>
+      <line x1="100" y1="220" x2="142" y2="262" stroke="#52b788" stroke-width="1" opacity="0.12"/>
+    </svg>
+    <svg class="bot-leaf bot-leaf--br" viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M80 270 C80 270 8 196 8 112 C8 48 38 8 80 8 C122 8 152 48 152 112 C152 196 80 270 80 270Z" fill="#52b788" opacity="0.08"/>
+      <line x1="80" y1="24" x2="80" y2="262" stroke="#95d5b2" stroke-width="1.2" opacity="0.14"/>
+      <line x1="80" y1="80" x2="42" y2="122" stroke="#95d5b2" stroke-width="0.8" opacity="0.10"/>
+      <line x1="80" y1="130" x2="116" y2="168" stroke="#95d5b2" stroke-width="0.8" opacity="0.10"/>
+      <line x1="80" y1="180" x2="46" y2="216" stroke="#95d5b2" stroke-width="0.8" opacity="0.09"/>
+    </svg>
+    <svg class="bot-leaf bot-leaf--tr" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 194 C60 194 6 140 6 84 C6 36 28 6 60 6 C92 6 114 36 114 84 C114 140 60 194 60 194Z" fill="#1b4332" opacity="0.15"/>
+      <line x1="60" y1="18" x2="60" y2="186" stroke="#52b788" stroke-width="1" opacity="0.16"/>
+    </svg>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="global-nav" id="global-nav">
+    <div class="nav-inner">
+      <a href="#ch-hero" class="nav-logo">DK</a>
+      <ul class="nav-links">
+        <li><a href="#ch-about">About</a></li>
+        <li><a href="#ch-education">Education</a></li>
+        <li><a href="#ch-experience">Experience</a></li>
+        <li><a href="#ch-leadership">Leadership</a></li>
+        <li><a href="#ch-committee">Projects</a></li>
+        <li><a href="#ch-contact">Contact</a></li>
+      </ul>
+      <a href="mailto:dandyykurniawan2@gmail.com" class="btn-primary nav-cta">Get in Touch</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="#ch-about">About</a></li>
+        <li><a href="#ch-education">Education</a></li>
+        <li><a href="#ch-experience">Experience</a></li>
+        <li><a href="#ch-leadership">Leadership</a></li>
+        <li><a href="#ch-committee">Projects</a></li>
+        <li><a href="#ch-contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Progress dots -->
+  <nav class="journey-progress" aria-label="Section navigation">
+    <button class="j-dot active" data-target="#ch-hero" aria-label="Hero"></button>
+    <button class="j-dot" data-target="#ch-about" aria-label="About"></button>
+    <button class="j-dot" data-target="#ch-education" aria-label="Education"></button>
+    <button class="j-dot" data-target="#ch-experience" aria-label="Experience"></button>
+    <button class="j-dot" data-target="#ch-leadership" aria-label="Leadership"></button>
+    <button class="j-dot" data-target="#ch-committee" aria-label="Projects"></button>
+    <button class="j-dot" data-target="#ch-contact" aria-label="Contact"></button>
+  </nav>
+
+  <!-- Scroll journey — 700 vh -->
+  <div id="journey">
+
+    <!-- ── 0: Hero ── -->
+    <section class="chapter" id="ch-hero">
+      <div id="hero-text">
+        <p class="hero-eyebrow">
+          <span class="leaf-dot" aria-hidden="true"></span>
+          Agribusiness · Leadership · Strategy
+        </p>
+        <h1 class="hero-name">Dandy<br /><em>Kurniawan</em></h1>
+        <p class="hero-title">Business Development &amp; Project Design</p>
+        <div class="hero-meta">
+          <span>Universitas Padjadjaran</span>
+          <span class="sep">·</span>
+          <span>GPA 3.60 / 4.00</span>
+          <span class="sep">·</span>
+          <span>Bandung, INA</span>
+        </div>
+        <div class="hero-cta-row">
+          <a href="#ch-about" class="btn-primary">Explore Journey</a>
+          <a href="mailto:dandyykurniawan2@gmail.com" class="btn-ghost">Get in Touch</a>
+        </div>
+        <div class="scroll-hint" aria-hidden="true">
+          <span class="scroll-stem"></span>
+          <span class="scroll-label">scroll to grow</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 1: About ── -->
+    <section class="chapter" id="ch-about">
+      <div class="ch-panel ch-right">
+        <span class="ch-label">01 — About</span>
+        <h2>Where roots<br /><em>run deep</em></h2>
+
+        <div class="about-grid">
+          <div class="about-portrait-wrap">
+            <img src="images/profile.jpg" alt="Dandy Kurniawan" class="about-portrait" />
+            <div class="portrait-ring" aria-hidden="true"></div>
+            <svg class="portrait-leaf" viewBox="0 0 80 130" fill="none" aria-hidden="true">
+              <path d="M40 126 C40 126 4 90 4 54 C4 24 20 4 40 4 C60 4 76 24 76 54 C76 90 40 126 40 126Z" fill="#2d6a4f" opacity="0.35"/>
+              <line x1="40" y1="14" x2="40" y2="120" stroke="#95d5b2" stroke-width="1" opacity="0.4"/>
+              <line x1="40" y1="48" x2="22" y2="66" stroke="#95d5b2" stroke-width="0.7" opacity="0.35"/>
+              <line x1="40" y1="68" x2="56" y2="84" stroke="#95d5b2" stroke-width="0.7" opacity="0.35"/>
+            </svg>
+          </div>
+          <div class="about-text">
+            <p class="ch-body">
+              Final year Agribusiness Student at Universitas Padjadjaran with a proven track record in leadership and marketing strategy. Experienced acting as the primary liaison between campus leadership — Study Program and Faculty Deanery — ensuring institutional goals move in rhythm.
+            </p>
+            <p class="ch-body">
+              Strives to leverage project management and cross-functional communication to foster collaborative environments where ideas grow into tangible results.
+            </p>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-num">200<span class="stat-plus">+</span></span>
+            <span class="stat-lbl">Members Led</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">80<span class="stat-plus">+</span></span>
+            <span class="stat-lbl">Strategic Programs</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">500<span class="stat-plus">+</span></span>
+            <span class="stat-lbl">Events Coordinated</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">10<span class="stat-plus">+</span></span>
+            <span class="stat-lbl">Sponsors Secured</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2: Education ── -->
+    <section class="chapter" id="ch-education">
+      <div class="ch-panel ch-left">
+        <span class="ch-label">02 — Education</span>
+        <h2>The soil<br /><em>that shapes</em></h2>
+
+        <div class="edu-cards">
+
+          <div class="edu-card">
+            <div class="edu-leaf-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 70 C24 70 3 50 3 28 C3 13 12 3 24 3 C36 3 45 13 45 28 C45 50 24 70 24 70Z" fill="#52b788" opacity="0.6"/>
+                <line x1="24" y1="10" x2="24" y2="66" stroke="#c7f9cc" stroke-width="1.2" opacity="0.55"/>
+                <line x1="24" y1="26" x2="13" y2="38" stroke="#c7f9cc" stroke-width="0.9" opacity="0.45"/>
+                <line x1="24" y1="38" x2="34" y2="50" stroke="#c7f9cc" stroke-width="0.9" opacity="0.45"/>
+                <line x1="24" y1="50" x2="14" y2="60" stroke="#c7f9cc" stroke-width="0.9" opacity="0.38"/>
+              </svg>
+            </div>
+            <div class="edu-content">
+              <span class="edu-period">July 2022 — Present</span>
+              <h3>Universitas Padjadjaran</h3>
+              <p class="edu-degree">Bachelor of Agribusiness</p>
+              <div class="edu-badge">GPA 3.60 / 4.00</div>
+              <span class="edu-loc">Bandung, Indonesia</span>
+            </div>
+          </div>
+
+          <div class="edu-connector" aria-hidden="true">
+            <svg viewBox="0 0 20 60" fill="none">
+              <line x1="10" y1="0" x2="10" y2="60" stroke="#52b788" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.35"/>
+              <circle cx="10" cy="30" r="3" fill="#2d6a4f" opacity="0.5"/>
+            </svg>
+          </div>
+
+          <div class="edu-card edu-card--secondary">
+            <div class="edu-leaf-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 70 C24 70 3 50 3 28 C3 13 12 3 24 3 C36 3 45 13 45 28 C45 50 24 70 24 70Z" fill="#2d6a4f" opacity="0.55"/>
+                <line x1="24" y1="10" x2="24" y2="66" stroke="#95d5b2" stroke-width="1.2" opacity="0.45"/>
+                <line x1="24" y1="30" x2="14" y2="42" stroke="#95d5b2" stroke-width="0.9" opacity="0.38"/>
+                <line x1="24" y1="46" x2="34" y2="56" stroke="#95d5b2" stroke-width="0.9" opacity="0.38"/>
+              </svg>
+            </div>
+            <div class="edu-content">
+              <span class="edu-period">Jul 2019 — Jun 2022</span>
+              <h3>SMA Negeri 6 Kota Bogor</h3>
+              <p class="edu-degree">Natural Sciences &amp; Technology</p>
+              <span class="edu-loc">Bogor, Indonesia</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="campus-photo-row">
+          <img src="images/himpro.jpg" alt="Dandy at Universitas Padjadjaran campus" />
+          <img src="images/campus3.jpg" alt="Campus activities" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3: Experience ── -->
+    <section class="chapter" id="ch-experience">
+      <div class="ch-panel ch-right">
+        <span class="ch-label">03 — Work Experience</span>
+        <h2>Branches<br /><em>that reach</em></h2>
+
+        <div class="exp-timeline">
+
+          <div class="exp-stem" aria-hidden="true"></div>
+
+          <div class="exp-item">
+            <div class="exp-node" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="9" stroke="#52b788" stroke-width="1.5"/>
+                <circle cx="10" cy="10" r="4" fill="#52b788" opacity="0.7"/>
+              </svg>
+            </div>
+            <div class="exp-content">
+              <div class="exp-header">
+                <h3>Marketing &amp; Sales Intern</h3>
+                <span class="exp-badge">KOL Specialist</span>
+              </div>
+              <div class="exp-meta">
+                <span class="exp-company">Mushome.id</span>
+                <span class="sep">·</span>
+                <span class="exp-loc">Cimahi, INA</span>
+                <span class="sep">·</span>
+                <span class="exp-period">Jun — Oct 2025</span>
+              </div>
+              <ul class="exp-list">
+                <li>Sourced and managed <strong>20 KOLs</strong> for product promotion campaigns</li>
+                <li>Listed and outreached <strong>800+ online &amp; offline stores</strong> for partnerships</li>
+                <li>Analyzed <strong>20+ competitors</strong> to sharpen marketing development strategy</li>
+                <li>Responded to <strong>800+ Shopee reviews</strong> to build store ratings and customer trust</li>
+                <li>Distributed CRM assessments to <strong>100+ customers</strong> for product development</li>
+                <li>Created <strong>10+ content planners</strong> and 5+ social media promotional pieces</li>
+                <li>Filled exhibition booths 3 times, directly promoting to customers</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-node" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="9" stroke="#2d6a4f" stroke-width="1.5"/>
+                <circle cx="10" cy="10" r="4" fill="#2d6a4f" opacity="0.7"/>
+              </svg>
+            </div>
+            <div class="exp-content">
+              <div class="exp-header">
+                <h3>Marketing Intern</h3>
+              </div>
+              <div class="exp-meta">
+                <span class="exp-company">Dillco Group</span>
+                <span class="sep">·</span>
+                <span class="exp-loc">Bandung, INA</span>
+                <span class="sep">·</span>
+                <span class="exp-period">May — Jun 2024</span>
+              </div>
+              <ul class="exp-list">
+                <li>Developed <strong>10+ content planners</strong> for soft-sell product promotion</li>
+                <li>Authored <strong>2 articles</strong> published on the company website</li>
+                <li>Researched <strong>10+ content references</strong> to strengthen branding identity</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4: Leadership ── -->
+    <section class="chapter" id="ch-leadership">
+      <div class="ch-panel ch-left">
+        <span class="ch-label">04 — Leadership &amp; Organisation</span>
+        <h2>The canopy<br /><em>that shelters</em></h2>
+
+        <div class="lead-grid">
+
+          <div class="lead-card lead-card--primary">
+            <div class="lead-card-leaf" aria-hidden="true">
+              <svg viewBox="0 0 36 54" fill="none">
+                <path d="M18 52 C18 52 2 37 2 21 C2 10 9 2 18 2 C27 2 34 10 34 21 C34 37 18 52 18 52Z" fill="#52b788" opacity="0.4"/>
+                <line x1="18" y1="8" x2="18" y2="49" stroke="#c7f9cc" stroke-width="1" opacity="0.45"/>
+                <line x1="18" y1="20" x2="9" y2="30" stroke="#c7f9cc" stroke-width="0.7" opacity="0.38"/>
+                <line x1="18" y1="32" x2="26" y2="40" stroke="#c7f9cc" stroke-width="0.7" opacity="0.38"/>
+              </svg>
+            </div>
+            <span class="lead-period">Dec 2024 — Dec 2025</span>
+            <h3>Chairperson</h3>
+            <p class="lead-org">BEM KMFP Unpad</p>
+            <ul class="lead-points">
+              <li>Led organisation-wide alignment for <strong>200+ members</strong>, primary bridge between students and Faculty Deanery</li>
+              <li>Tracked OKR progress for <strong>80+ strategic programs</strong>, identifying blockers and ensuring timely delivery</li>
+              <li>Managed <strong>100+ forums and meetings</strong> at faculty level</li>
+            </ul>
+          </div>
+
+          <div class="lead-card">
+            <span class="lead-period">Jan — Dec 2024</span>
+            <h3>Chairperson</h3>
+            <p class="lead-org">Himpro Agri Unpad</p>
+            <ul class="lead-points">
+              <li>Led <strong>100+ member</strong> study program organisation, bridging students and Study Program leadership</li>
+              <li>Tracked <strong>45+ strategic programs</strong> via OKR implementation</li>
+              <li>Made <strong>100+ decisions</strong> ensuring mutual progress for all members</li>
+            </ul>
+          </div>
+
+          <div class="lead-card">
+            <span class="lead-period">Feb — Dec 2023</span>
+            <h3>Staff — Academic, Achievements &amp; Appreciation</h3>
+            <p class="lead-org">BEM KMFP Unpad</p>
+            <ul class="lead-points">
+              <li>Managed Faperta Awards program from planning to completion</li>
+              <li>Delivered <strong>50+ academic resources</strong> including scholarships and competitions</li>
+              <li>Maintained KPI and OKR across 5+ department programs</li>
+            </ul>
+          </div>
+
+          <div class="lead-card">
+            <span class="lead-period">Mar — Dec 2023</span>
+            <h3>Staff — Community Social Division</h3>
+            <p class="lead-org">Himpro Agri Unpad</p>
+            <ul class="lead-points">
+              <li>Designed and executed Himpro Berbagi with <strong>100+ participants</strong></li>
+              <li>Campaigned social awareness activities to increase student engagement</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5: Committee ── -->
+    <section class="chapter" id="ch-committee">
+      <div class="ch-panel ch-right">
+        <span class="ch-label">05 — Projects &amp; Committee</span>
+        <h2>Seeds<br /><em>into harvest</em></h2>
+
+        <div class="com-grid">
+
+          <div class="com-card">
+            <div class="com-card-top">
+              <span class="com-period">Jun — Oct 2024</span>
+              <div class="com-badge">Vice Project Officer I</div>
+            </div>
+            <h3>PAB &amp; MABIM KMFP</h3>
+            <span class="com-role-sub">Field Coordinator</span>
+            <p>Headed the technical division — event, facilitator, supervision, logistics, and medical — of <strong>50+ people</strong>. Completed <strong>10 series</strong> of cadre development for <strong>500+ new students</strong> of the Faculty of Agriculture.</p>
+          </div>
+
+          <div class="com-card com-card--accent">
+            <div class="com-card-top">
+              <span class="com-period">Apr — Nov 2023</span>
+              <div class="com-badge">Vice Project Officer II</div>
+            </div>
+            <h3>Agriday</h3>
+            <span class="com-role-sub">Technical &amp; Creative Division Lead</span>
+            <p>Led 50+ people across creative and technical arms. Delivered a <strong>National Seminar (100+ audience)</strong>, <strong>Business Competition (20+ teams)</strong>, and <strong>Exhibition (500+ visitors, 20+ tenants)</strong>. Secured <strong>10+ sponsors</strong> and 10+ media partners.</p>
+          </div>
+
+          <div class="com-card">
+            <div class="com-card-top">
+              <span class="com-period">May — Nov 2023</span>
+              <div class="com-badge">Steering Committee</div>
+            </div>
+            <h3>Faperta Awards</h3>
+            <p>End-to-end event facilitation. Managed <strong>100+ committee members</strong> as primary liaison to leadership. Processed and categorised nominee data for <strong>10+ award categories</strong> with full data integrity.</p>
+          </div>
+
+          <div class="com-card">
+            <div class="com-card-top">
+              <span class="com-period">Jul 2022 — Jan 2024</span>
+              <div class="com-badge">Head of Event Division</div>
+            </div>
+            <h3>LDK Agriventure</h3>
+            <p>Designed, implemented, and evaluated <strong>5 cadre development series</strong> for <strong>100+ new Agribusiness students</strong>. Led a <strong>10+ person team</strong>, building systems ensuring equal growth opportunity for all members.</p>
+          </div>
+
+        </div>
+
+        <div class="event-photo-row">
+          <img src="images/campus1.jpg" alt="Event coordination" />
+          <img src="images/campus2.jpg" alt="Campus activities" />
+          <img src="images/campus4.jpg" alt="Organisational work" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6: Contact ── -->
+    <section class="chapter" id="ch-contact">
+      <div class="ch-panel ch-center">
+        <span class="ch-label">06 — Contact</span>
+        <h2>Let's cultivate<br /><em>something great</em></h2>
+        <p class="ch-body contact-intro">
+          Whether it's a project, a collaboration, or just a conversation about growth — I'm always open to planting new seeds.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:dandyykurniawan2@gmail.com" class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            </span>
+            <span>dandyykurniawan2@gmail.com</span>
+          </a>
+          <a href="tel:+6281316204483" class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.1 6.1l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span>+62 813 1620 4483</span>
+          </a>
+          <a href="https://linkedin.com/in/dandykurniawan" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </span>
+            <span>linkedin.com/dandykurniawan</span>
+          </a>
+        </div>
+
+        <div class="skills-block">
+          <h4 class="skills-heading">Skills &amp; Tools</h4>
+          <div class="skills-cols">
+            <div class="skills-col">
+              <span class="skills-col-label">Hard Skills</span>
+              <div class="skills-tags">
+                <span>Microsoft 365</span>
+                <span>Google Workspace</span>
+                <span>Notion</span>
+                <span>Zoom</span>
+                <span>Meeting Minutes</span>
+                <span>Crisis Communication</span>
+              </div>
+            </div>
+            <div class="skills-col">
+              <span class="skills-col-label">Soft Skills</span>
+              <div class="skills-tags">
+                <span>Stakeholder Liaison</span>
+                <span>Strategic Alignment</span>
+                <span>Project Management</span>
+                <span>Public Speaking</span>
+                <span>Decision Making</span>
+                <span>Business Acumen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="contact-lang">
+          <span>Bahasa Indonesia — Native</span>
+          <span class="sep">·</span>
+          <span>English — Professional Working Proficiency</span>
+        </p>
+
+      </div>
+    </section>
+
+  </div><!-- /#journey -->
+
+  <script src="botanical-journey.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
